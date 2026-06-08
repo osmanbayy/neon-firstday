@@ -26,10 +26,10 @@ export const Hero: React.FC = () => {
           {STAFF_MEMBERS.map((staff) => (
             <StaffCard
               key={staff.id}
+              id={staff.id}
               name={staff.name}
-              email={staff.email}
-              position={staff.position}
-              avatarUrl={staff.avatarUrl}
+              department={staff.department}
+              zodiac={staff.zodiac}
             />
           ))}
         </div>
