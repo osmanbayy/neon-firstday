@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-// @ts-ignore: allow side-effect CSS import in environments without CSS module typings
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Providers } from "./providers";

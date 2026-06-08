@@ -1,4 +1,3 @@
-import { ThemeProvider } from "next-themes";
 import React from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { NavigationMenuDemo } from "./NavigationMenu";

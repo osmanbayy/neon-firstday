@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.url(),
   JWT_SECRET: z.string().min(10),
   API_TIMEOUT_MS: z.string().regex(/^\d+$/).transform(Number),
-  NEXT_PUBLIC_APP_URL: z.string().url(),
+  NEXT_PUBLIC_APP_URL: z.url(),
   PORT: z.string().regex(/^\d+$/).transform(Number),
 
   NODE_ENV: z.enum([
@@ -13,14 +13,14 @@ const envSchema = z.object({
     "test",
   ]),
 
-  NEXT_PUBLIC_API_URL: z.string().url(),
+  NEXT_PUBLIC_API_URL: z.url(),
 });
 
 const parsed = envSchema.safeParse(process.env);
 
 if (!parsed.success) {
   console.error(
-    "❌ Invalid environment variables:\n",
+    "Invalid environment variables:\n",
     parsed.error.format()
   );
 

@@ -1,6 +1,7 @@
 import { User, UserPlus } from 'lucide-react';
 import React from 'react'
 import { Button } from './ui/button';
+import Image from 'next/image';
 
 interface StaffCardProps {
   id: number;
@@ -12,7 +13,7 @@ interface StaffCardProps {
 export const StaffCard: React.FC<StaffCardProps> = ({ id, name, department, zodiac }) => {
   return (
     <div className="bg-white dark:bg-blue-950/20 shadow-md rounded-lg p-4 flex items-center space-x-4 w-full border h-full">
-      <img src={'/next.svg'} alt={`${name}'s avatar`} className="size-16 rounded-lg dark:invert" />
+      <Image src={'/next.svg'} alt={`${name}'s avatar`} className="size-16 rounded-lg dark:invert" />
       <div className="flex flex-col gap-1 flex-1">
         <span className="text-sm text-gray-500">ID: {id}</span>
         <h2 className="text-lg font-semibold">{name}</h2>
