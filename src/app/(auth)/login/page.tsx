@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema, LoginSchema } from "@/lib/schemas/login";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,10 +14,11 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { login } from "@/lib/auth";
+import { ForgotPasswordModal } from "@/components/modals/ForgotPasswordModal";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login, isLoading, error, user, isAuthenticated } = useAuthStore();
 
   const {
     register,
@@ -28,58 +30,60 @@ export default function LoginPage() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [forgotModalIsOpen, setForgotModalIsOpen] = useState(false);
+  const [animationParent] = useAutoAnimate();
 
   const toggleShowPassword = () => setShowPassword(prev => !prev);
 
   const onSubmit = async (data: LoginSchema) => {
-    setIsLoading(true);
+    const success = await login(data);
 
-    try {
-      const response = await login(data);
-
-      if (response.success && response.user) {
-        toast.success(`${response.message} ${response.user.name}`);
-        setTimeout(() => {
-          router.replace("/");
-        }, 500);
-      } else {
-        toast.error(response.error || response.message);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred during login");
-    } finally {
-      setIsLoading(false);
+    if (success && user) {
+      toast.success(`Welcome back ${user.name}`);
+      setTimeout(() => {
+        router.replace("/");
+      }, 500);
     }
   };
-
-  const [animationParent] = useAutoAnimate();
 
   // Auto focus to mail input
   useEffect(() => {
     setFocus("email")
   }, [setFocus])
 
+  // If already authenticated, redirect to home
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated, router]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-slate-100 via-gray-50 to-slate-200 px-4">
-      <div className="w-full max-w-md rounded-3xl border border-white/40 bg-white/80 p-8 shadow-2xl backdrop-blur-md">
+    <div className="flex min-h-screen items-center justify-center px-4 bg-linear-to-br from-slate-100 via-gray-50 to-slate-200
+    dark:from-zinc-950 dark:via-zinc-900 dark:to-black">
+      <div className="w-full max-w-md rounded-3xl p-8 shadow-2xl backdrop-blur-md border border-white/40 bg-white/80 dark:border-zinc-800/60 dark:bg-zinc-900/60">
 
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Welcome Back </h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Welcome Back </h1>
           <p className="mt-2 text-sm text-muted-foreground">Sign in to continue to your account</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
+          {error && (
+            <div className="rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-900/40 dark:bg-red-950/40">
+              <p className="text-sm font-medium text-red-800 dark:text-red-300">{error}</p>
+            </div>
+          )}
+
           {/* EMAIL */}
           <div ref={animationParent} className="space-y-2">
-            <label className="text-sm font-medium">Email</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
             <Input
               type="email"
               placeholder="you@example.com"
               {...register("email")}
-              className="h-11 rounded-xl"
+              className="h-11 rounded-xl bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
             />
             {errors.email && (
               <span className="block text-sm font-medium text-red-500">{errors.email.message}</span>
@@ -94,7 +98,7 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Your password"
                 {...register("password")}
-                className="h-11 rounded-xl pr-12"
+                className="h-11 rounded-xl pr-12 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
               />
 
               <button
@@ -105,6 +109,9 @@ export default function LoginPage() {
                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
               </button>
             </div>
+            <span className="flex justify-end text-sm underline cursor-pointer" onClick={() => setForgotModalIsOpen(true)}>
+              Forgot Password?
+            </span>
             {errors.password && (
               <span className="block text-sm font-medium text-red-500">{errors.password.message}</span>
             )}
@@ -113,7 +120,8 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="h-11 w-full rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-11 w-full rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-black text-white
+            dark:bg-white dark:text-black"
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">
@@ -126,6 +134,9 @@ export default function LoginPage() {
           </Button>
 
         </form>
+
+        {/* Forgot Password Modal */}
+        <ForgotPasswordModal forgotModalIsOpen={forgotModalIsOpen} setForgotModalIsOpen={setForgotModalIsOpen} />
 
       </div>
     </div>
