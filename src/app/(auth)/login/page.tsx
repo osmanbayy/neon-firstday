@@ -5,14 +5,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema, LoginSchema } from "@/lib/schemas/login";
 
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { login } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,23 +21,45 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setFocus
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log("LOGIN DATA:", data);
-
-    // TODO: Implement actual login logic
-    router.replace("/");
-  };
-
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleShowPassword = () => setShowPassword(prev => !prev);
 
-  const [animationParent] = useAutoAnimate()
+  const onSubmit = async (data: LoginSchema) => {
+    setIsLoading(true);
+
+    try {
+      const response = await login(data);
+
+      if (response.success && response.user) {
+        toast.success(`${response.message} ${response.user.name}`);
+        setTimeout(() => {
+          router.replace("/");
+        }, 500);
+      } else {
+        toast.error(response.error || response.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred during login");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const [animationParent] = useAutoAnimate();
+
+  // Auto focus to mail input
+  useEffect(() => {
+    setFocus("email")
+  }, [setFocus])
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-slate-100 via-gray-50 to-slate-200 px-4">
@@ -87,8 +110,19 @@ export default function LoginPage() {
             )}
           </div>
 
-          <Button type="submit" className="h-11 w-full rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02]" >
-            Sign in
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="h-11 w-full rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <Loader2 size={18} className="animate-spin" />
+                <span>Signing in...</span>
+              </div>
+            ) : (
+              "Sign in"
+            )}
           </Button>
 
         </form>
