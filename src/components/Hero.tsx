@@ -6,8 +6,8 @@ export const Hero: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between px-5 py-20 w-full">
       <div className="relative py-10 w-full max-w-7xl">
-        <h1 className="text-4xl font-bold mb-4">
-          Neon First Day!
+        <h1 className="text-4xl font-bold mb-10 text-center font-mono">
+          Neon Apps Staff Members
         </h1>
         {/* Members Grid List */}
         <div className="relative w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
