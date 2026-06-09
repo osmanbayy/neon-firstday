@@ -1,3 +1,5 @@
+"use server"
+
 import { config } from "./config";
 import { LoginSchema } from "./schemas/login";
 

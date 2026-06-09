@@ -1,4 +1,6 @@
+import "server-only";
 import { z } from "zod";
+
 
 const envSchema = z.object({
   DATABASE_URL: z.url(),
