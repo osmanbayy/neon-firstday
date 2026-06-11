@@ -4,7 +4,7 @@ export default function Announcements() {
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-2xl">Announcements</h2>
+        <h2 className="text-lg font-medium font-sans tracking-tighter">Announcements</h2>
         <p className="text-muted-foreground text-sm">
           Latest updates and important information
         </p>
@@ -25,7 +25,7 @@ export default function Announcements() {
                 </div>
 
                 <div>
-                  <h3 className="">
+                  <h3 className="font-sans">
                     {announcement.title}
                   </h3>
                   <p className="text-muted-foreground text-xs">

@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { UserDropdown } from "@/components/dropdowns/UserDropdown";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { NavbarBreadcrumb } from "../NavbarBreadcrumb";
 
 export function Navbar() {
   const isMobile = useIsMobile();
@@ -13,7 +14,7 @@ export function Navbar() {
       <SidebarTrigger className="-ml-1" />
 
       <div className="flex flex-1 items-center justify-between">
-        <div className="text-lg font-medium text-foreground">Neon Apps</div>
+        <NavbarBreadcrumb />
 
         <div className="flex items-center gap-4">
           {!isMobile && <ThemeToggle />}

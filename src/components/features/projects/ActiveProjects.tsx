@@ -7,7 +7,7 @@ export default function ActiveProjects() {
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-2xl">Active Projects</h2>
+        <h2 className="text-lg tracking-tighter font-medium font-sans">Active Projects</h2>
         <p className="text-muted-foreground text-sm">
           Track ongoing projects and their progress.
         </p>
@@ -25,7 +25,7 @@ export default function ActiveProjects() {
               </div>
 
               <div>
-                <h3 className="">{project.name}</h3>
+                <h3 className="font-sans">{project.name}</h3>
                 <p className="text-muted-foreground text-xs">
                   Active Project
                 </p>

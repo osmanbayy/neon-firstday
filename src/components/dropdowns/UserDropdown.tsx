@@ -24,14 +24,14 @@ export function UserDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-          <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+          <div className="flex aspect-square size-8 items-center justify-center rounded-full bg-sidebar-primary text-sidebar-primary-foreground">
             <span className="text-sm font-bold">{firstLetter}</span>
           </div>
         </button>
       </DropdownMenuTrigger>
       <div className="flex flex-col gap-0.5 leading-none">
-        <span className="text-xs font-medium max-lg:hidden text-foreground">{user?.email}</span>
-        <span className="text-xs text-sidebar-foreground/70 capitalize">{user?.role}</span>
+        <span className="text-xs font-medium max-sm:hidden text-foreground">{user?.email}</span>
+        <span className="text-xs text-sidebar-foreground/70 max-sm:hidden">{user?.role}</span>
       </div>
       <DropdownMenuContent align="end" side="bottom" sideOffset={8}>
         {userDropdownItems.map((item) => (

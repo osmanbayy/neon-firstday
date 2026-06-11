@@ -14,15 +14,15 @@ export function StaffCard({ id, name, department, zodiac }: StaffCardProps) {
   return (
     <div className="flex h-full w-full items-center space-x-4 rounded-lg border bg-card p-4 shadow-sm">
       <Image
-        src="/next.svg"
+        src="/neon-logo.png"
         alt={`${name}'s avatar`}
         width={64}
         height={64}
-        className="rounded-lg dark:invert"
+        className="rounded-lg invert dark:invert-0"
       />
       <div className="flex flex-1 flex-col gap-1">
         <span className="text-sm text-muted-foreground">ID: {id}</span>
-        <h2 className="text-sm font-semibold">{name}</h2>
+        <h2 className="text-sm font-medium font-sans">{name}</h2>
         <p className="text-sm text-muted-foreground">{department}</p>
         <p className="text-sm text-muted-foreground">Zodiac: <span className="text-foreground font-light">{zodiac}</span></p>
       </div>

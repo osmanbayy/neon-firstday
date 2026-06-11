@@ -24,6 +24,7 @@ import { useAppStore } from "@/lib/stores/appStore";
 import { LogoutConfirmModal } from "../modals/LogoutConfirmModal";
 import { useTheme } from "next-themes";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Image from "next/image";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -42,9 +43,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <span className="text-sm font-bold">N</span>
-                </div>
+                <Image src={"/neon-logo.png"} alt="Neon Logo" width={50} height={50} className="invert dark:invert-0 transition-all duration-300" />
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">Neon Apps</span>
                   <span className="text-xs text-sidebar-foreground/70">
