@@ -59,12 +59,11 @@ export default function LoginPage() {
   }, [isAuthenticated, router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 bg-linear-to-br from-slate-100 via-gray-50 to-slate-200
-    dark:from-zinc-950 dark:via-zinc-900 dark:to-black">
-      <div className="w-full max-w-md rounded-3xl p-8 shadow-2xl backdrop-blur-md border border-white/40 bg-white/80 dark:border-zinc-800/60 dark:bg-zinc-900/60">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-2xl backdrop-blur-md">
 
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Welcome Back </h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome Back</h1>
           <p className="mt-2 text-sm text-muted-foreground">Sign in to continue to your account</p>
         </div>
 
@@ -78,12 +77,12 @@ export default function LoginPage() {
 
           {/* EMAIL */}
           <div ref={animationParent} className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <label className="text-sm font-medium text-foreground">Email</label>
             <Input
               type="email"
               placeholder="you@example.com"
               {...register("email")}
-              className="h-11 rounded-xl bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              className="h-11 rounded-xl"
             />
             {errors.email && (
               <span className="block text-sm font-medium text-red-500">{errors.email.message}</span>
@@ -98,13 +97,13 @@ export default function LoginPage() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Your password"
                 {...register("password")}
-                className="h-11 rounded-xl pr-12 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                className="h-11 rounded-xl pr-12"
               />
 
               <button
                 type="button"
                 onClick={toggleShowPassword}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-sm text-muted-foreground"
               >
                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
               </button>
@@ -120,8 +119,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="h-11 w-full rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed bg-black text-white
-            dark:bg-white dark:text-black"
+            className="h-11 w-full rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? (
               <div className="flex items-center justify-center gap-2">

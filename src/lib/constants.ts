@@ -33,102 +33,102 @@ export const STAFF_MEMBERS = [
     id: 6,
     name: "Melisa Kamat",
     department: "UI/UX Designer",
-    zodiac: "Sagittarius"
+    zodiac: "Sagittarius",
   },
   {
     id: 7,
     name: "Alihan Gezer",
     department: "UI/UX Designer",
-    zodiac: "Sagittarius"
+    zodiac: "Sagittarius",
   },
   {
     id: 8,
     name: "Hande Nur Topuz",
     department: "UI/UX Designer",
-    zodiac: "Aries"
+    zodiac: "Aries",
   },
   {
     id: 9,
     name: "Faruk Bineroğlu",
     department: "Flutter Developer",
-    zodiac: "Gemini"
+    zodiac: "Gemini",
   },
   {
     id: 10,
     name: "Anıl Sorgit",
     department: "Flutter Developer",
-    zodiac: "Virgo"
+    zodiac: "Virgo",
   },
   {
     id: 11,
     name: "Dilan Akkaya",
     department: "UI/UX Designer",
-    zodiac: "Capricorn"
+    zodiac: "Capricorn",
   },
   {
     id: 12,
     name: "Ayşe Rana Kurada",
     department: "UI/UX Designer",
-    zodiac: "Scorpio"
+    zodiac: "Scorpio",
   },
   {
     id: 13,
     name: "Doğa Dölekçi",
     department: "UI/UX Designer",
-    zodiac: "Aquarius"
+    zodiac: "Aquarius",
   },
   {
     id: 14,
     name: "Hasan Bektaş",
     department: "Flutter Developer",
-    zodiac: "Pisces"
+    zodiac: "Pisces",
   },
   {
     id: 15,
     name: "Furkan Ayan",
     department: "Flutter Developer",
-    zodiac: "Taurus"
+    zodiac: "Taurus",
   },
   {
     id: 16,
     name: "Eymen Varilci",
     department: "Project Manager",
-    zodiac: "Pisces"
+    zodiac: "Pisces",
   },
   {
     id: 17,
     name: "Serhat Yaroğlu",
     department: "IOS Developer",
-    zodiac: "Scorpio"
+    zodiac: "Scorpio",
   },
   {
     id: 18,
     name: "Barış Karahüseyin",
     department: "Human Resources",
-    zodiac: "Scorpio"
+    zodiac: "Scorpio",
   },
   {
     id: 19,
     name: "Sarp Çetintaş",
     department: "UI/UX Designer",
-    zodiac: "Taurus"
+    zodiac: "Taurus",
   },
   {
     id: 20,
     name: "İlknur Tulgar",
     department: "Flutter Developer",
-    zodiac: "Scorpio"
+    zodiac: "Scorpio",
   },
   {
     id: 21,
     name: "Anıl Sezgin",
     department: "Full Stack Developer",
-    zodiac: "Libra"
+    zodiac: "Libra",
   },
   {
     id: 22,
     name: "Gülberk Aktay",
     department: "UI/UX Designer",
-    zodiac: "Taurus"
-  }
-]
+    zodiac: "Taurus",
+  },
+];
