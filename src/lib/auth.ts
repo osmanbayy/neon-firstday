@@ -10,7 +10,7 @@ export interface AuthResponse {
     email: string;
     name: string;
     id: string;
-    role: string;
+    role: string[];
   };
   error?: string;
 }
@@ -28,7 +28,7 @@ export const login = async (data: LoginSchema): Promise<AuthResponse> => {
         id: "uuid-1907",
         email: config.MOCK_CORRECT_EMAIL,
         name: config.MOCK_CORRECT_EMAIL.split("@")[0],
-        role: "admin"
+        role: ["ADMIN"]
       }
     }
   }

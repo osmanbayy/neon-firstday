@@ -13,12 +13,15 @@ import { userDropdownItems } from "@/config/navigation"
 import { useAuth } from "@/hooks/use-auth"
 import Link from "next/link"
 import { useAppStore } from "@/lib/stores/appStore"
+import { useHasRole } from "@/hooks/use-role"
 
 export function UserDropdown() {
   const { user } = useAuth();
   const firstLetter = user?.name.charAt(0).toUpperCase();
 
   const { setLogoutModalIsOpen } = useAppStore()
+
+  const isAdmin = useHasRole();
 
   return (
     <DropdownMenu>

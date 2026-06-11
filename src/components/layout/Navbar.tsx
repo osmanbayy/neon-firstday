@@ -3,11 +3,9 @@
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { UserDropdown } from "@/components/dropdowns/UserDropdown";
-import { useAppStore } from "@/lib/stores/appStore";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Navbar() {
-  // const { userDropdownIsOpen, setUserDropdownIsOpen } = useAppStore();
   const isMobile = useIsMobile();
 
   return (
