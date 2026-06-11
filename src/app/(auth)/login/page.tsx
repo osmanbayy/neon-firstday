@@ -41,7 +41,7 @@ export default function LoginPage() {
     if (success && user) {
       toast.success(`Welcome back ${user.name}`);
       setTimeout(() => {
-        router.replace("/");
+        router.replace("/home");
       }, 500);
     }
   };
@@ -54,7 +54,7 @@ export default function LoginPage() {
   // If already authenticated, redirect to home
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/");
+      router.replace("/home");
     }
   }, [isAuthenticated, router]);
 

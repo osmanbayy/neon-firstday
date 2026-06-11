@@ -13,8 +13,8 @@ export type UserDropdownItem = {
 }
 
 export const mainNavItems: NavItem[] = [
-  { title: "Home", href: "/", icon: Home },
-  { title: "Team", href: "/", icon: Users },
+  { title: "Home", href: "/home", icon: Home },
+  { title: "Team", href: "/members", icon: Users },
   { title: "Projects", href: "/", icon: Briefcase },
   { title: "Tasks", href: "/", icon: ListChecks },
 

@@ -1,6 +1,6 @@
 "use server"
 
-import { config } from "./config";
+import { DUMMY_USERS } from "./constants";
 import { LoginSchema } from "./schemas/login";
 
 export interface AuthResponse {
@@ -10,32 +10,40 @@ export interface AuthResponse {
     email: string;
     name: string;
     id: string;
-    role: string[];
+    role: "ADMIN" | "USER";
   };
   error?: string;
 }
 
-export const login = async (data: LoginSchema): Promise<AuthResponse> => {
+export const login = async (
+  data: LoginSchema
+): Promise<AuthResponse> => {
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   const { email, password } = data;
 
-  if (email == config?.MOCK_CORRECT_EMAIL && password === config.MOCK_CORRECT_PASSWORD) {
+  const user = DUMMY_USERS.find(
+    (user) =>
+      user.email === email &&
+      user.password === password
+  );
+
+  if (!user) {
     return {
-      success: true,
-      message: "Welcome Back",
-      user: { 
-        id: "uuid-1907",
-        email: config.MOCK_CORRECT_EMAIL,
-        name: config.MOCK_CORRECT_EMAIL.split("@")[0],
-        role: ["ADMIN"]
-      }
-    }
+      success: false,
+      message: "Login failed!",
+      error: "Email or password is incorrect",
+    };
   }
 
   return {
-    success: false,
-    message: "Login failed!",
-    error: "Email or password is incorrect"
-  }
-}
+    success: true,
+    message: "Welcome Back",
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role as "ADMIN" | "USER",
+    },
+  };
+};

@@ -1,3 +1,5 @@
+import { AlertCircle, Calendar, Megaphone } from "lucide-react";
+
 export const STAFF_MEMBERS = [
   {
     id: 1,
@@ -130,5 +132,76 @@ export const STAFF_MEMBERS = [
     name: "Gülberk Aktay",
     department: "UI/UX Designer",
     zodiac: "Taurus",
+  },
+];
+
+export const DUMMY_USERS = [
+  {
+    id: "uuid-1907",
+    email: "osmanbay@neonapps.com",
+    password: "Qwerty123*",
+    name: "osmanbay",
+    role: "ADMIN"
+  },
+  {
+    id: "uuid-1908",
+    email: "osmanbay18@neonapps.com",
+    password: "Qwerty123*",
+    name: "obay",
+    role: "USER"
+  },
+]
+
+export const ANNOUNCEMENTS = [
+  {
+    id: 1,
+    title: "System Maintenance",
+    description:
+      "Scheduled maintenance will take place on Sunday from 02:00 to 04:00 UTC.",
+    date: "Jun 15, 2026",
+    icon: AlertCircle,
+  },
+  {
+    id: 2,
+    title: "New Dashboard Features",
+    description:
+      "Role management and analytics widgets are now available for all admins.",
+    date: "Jun 10, 2026",
+    icon: Megaphone,
+  },
+  {
+    id: 3,
+    title: "Team Meeting",
+    description:
+      "Monthly team meeting will be held this Friday at 14:00 in the conference room.",
+    date: "Jun 13, 2026",
+    icon: Calendar,
+  },
+]
+
+export const ACTIVE_PROJECTS = [
+  {
+    id: 1,
+    name: "Neon Dashboard",
+    description: "Admin panel redesign and analytics integration.",
+    progress: 78,
+    members: 5,
+    deadline: "Jun 25, 2026",
+  },
+  {
+    id: 2,
+    name: "Mobile App",
+    description: "Building the customer-facing mobile application.",
+    progress: 45,
+    members: 3,
+    deadline: "Jul 10, 2026",
+  },
+  {
+    id: 3,
+    name: "Authentication System",
+    description: "RBAC implementation and security improvements.",
+    progress: 92,
+    members: 2,
+    deadline: "Jun 14, 2026",
   },
 ];

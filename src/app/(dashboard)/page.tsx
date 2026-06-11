@@ -1,5 +1,9 @@
-import { StaffGrid } from "@/components/features/staff/StaffGrid";
+import DashboardHome from "./home/page";
 
 export default function HomePage() {
-  return <StaffGrid />;
+  return (
+    <div className="">
+      <DashboardHome />
+    </div>
+  );
 }
