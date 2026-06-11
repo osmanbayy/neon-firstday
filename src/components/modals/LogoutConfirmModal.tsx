@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useAuthStore } from "@/lib/stores/authStore"
+import { useAuth } from "@/hooks/use-auth";
 
 interface LogoutModalProps {
   logoutModalIsOpen: boolean;
@@ -16,7 +16,7 @@ interface LogoutModalProps {
 }
 
 export function LogoutConfirmModal({ logoutModalIsOpen, setLogoutModalIsOpen }: LogoutModalProps) {
-  const { logout } = useAuthStore();
+  const { logout } = useAuth();
 
   const mockDelayedLogout = () => {
     setTimeout(() => {

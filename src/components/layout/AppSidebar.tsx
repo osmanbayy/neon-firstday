@@ -19,16 +19,22 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { LogOut } from "lucide-react";
+import { LogOut, MoonIcon } from "lucide-react";
 import { useAppStore } from "@/lib/stores/appStore";
 import { LogoutConfirmModal } from "../modals/LogoutConfirmModal";
+import { useTheme } from "next-themes";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AppSidebar() {
   const pathname = usePathname();
 
   const { user } = useAuthStore();
   const { logoutModalIsOpen, setLogoutModalIsOpen } = useAppStore();
-  
+
+  const { setTheme, theme } = useTheme();
+
+  const isMobile = useIsMobile();
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -90,6 +96,14 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {isMobile && <SidebarMenuItem>
+                <SidebarMenuButton className="cursor-pointer" asChild tooltip={"Theme"}>
+                  <div onClick={() => theme === "dark" ? setTheme("light") : setTheme("dark")}>
+                    <MoonIcon />
+                    <span>Switch Theme</span>
+                  </div>
+                </SidebarMenuButton>
+              </SidebarMenuItem>}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
