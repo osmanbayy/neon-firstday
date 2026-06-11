@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
 import { login as mockLogin } from "@/lib/auth";
 import { LoginSchema } from "@/lib/schemas/login";
 
@@ -20,63 +22,74 @@ interface AuthState {
   setUser: (user: User | null) => void;
 }
 
-// Get mock user from local storage
-const getInitialUser = (): User | null => {
-  try {
-    const initialUser = localStorage.getItem("neon_auth_user");
-    return initialUser ? (JSON.parse(initialUser) as User) : null;
-  } catch {
-    return null;
-  }
-};
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      isLoading: false,
+      error: null,
+      isAuthenticated: false,
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: getInitialUser(),
-  isLoading: false,
-  error: null,
-  isAuthenticated: getInitialUser() !== null,
+      login: async (credentials: LoginSchema) => {
+        set({ isLoading: true, error: null });
 
-  login: async (credentials: LoginSchema) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await mockLogin(credentials);
+        try {
+          const response = await mockLogin(credentials);
 
-      if (response.success && response.user) {
-        const user: User = {
-          id: response.user.id,
-          email: response.user.email,
-          name: response.user.name,
-        };
+          if (response.success && response.user) {
+            const user: User = {
+              id: response.user.id,
+              email: response.user.email,
+              name: response.user.name,
+            };
 
-        localStorage.setItem("neon_auth_user", JSON.stringify(user))
+            set({
+              user,
+              isAuthenticated: true,
+              isLoading: false,
+            });
 
-        set({ user, isAuthenticated: true, isLoading: false });
+            return true;
+          }
 
-        return true;
-      } else {
-        set({ error: response.error || response.message, isLoading: false });
-        return false;
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An error occurred during login";
-      set({ error: errorMessage, isLoading: false });
-      return false;
+          set({
+            error: response.error || response.message,
+            isLoading: false,
+          });
+
+          return false;
+        } catch (err) {
+          set({
+            error:
+              err instanceof Error
+                ? err.message
+                : "An error occurred during login",
+            isLoading: false,
+          });
+
+          return false;
+        }
+      },
+
+      logout: () => {
+        set({
+          user: null,
+          isAuthenticated: false,
+          error: null,
+          isLoading: false,
+        });
+      },
+
+      clearError: () => set({ error: null }),
+
+      setUser: (user) =>
+        set({
+          user,
+          isAuthenticated: !!user,
+        }),
+    }),
+    {
+      name: "neon-auth-storage",
     }
-  },
-
-  logout: () => {
-    try {
-      if (typeof window !== "undefined") localStorage.removeItem("neon_auth_user");
-    } catch { }
-    set({ user: null, isAuthenticated: false, error: null, isLoading: false });
-  },
-
-  clearError: () => set({ error: null }),
-
-  setUser: (user: User | null) => {
-    if (user) localStorage.setItem("neon_auth_user", JSON.stringify(user));
-    else localStorage.removeItem("neon_auth_user");
-
-    set({ user, isAuthenticated: user !== null });
-  },
-}));
+  )
+);
