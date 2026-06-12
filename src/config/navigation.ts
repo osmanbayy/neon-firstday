@@ -23,7 +23,8 @@ export const mainNavItems: NavItem[] = [
   { title: "Home", href: "/home", icon: Home },
   { title: "Team", href: "/members", icon: Users },
   { title: "Projects", href: "/", icon: Briefcase },
-  { title: "Daily Meeting", href: "/meeting", icon: Calendar }
+  { title: "Daily Meeting", href: "/meeting", icon: Calendar },
+  { title: "Activity Feed", href: "/activity-feed", icon: Activity }
 ];
 
 export const adminNavItems: AdminNavItem[] = [
