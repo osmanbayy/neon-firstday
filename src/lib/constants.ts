@@ -1,4 +1,12 @@
-import { AlertCircle, Calendar, Megaphone } from "lucide-react";
+import {
+  AlertCircle,
+  Calendar,
+  CheckCircle2,
+  Clock3,
+  FolderKanban,
+  Megaphone,
+  Users,
+} from "lucide-react";
 
 export const STAFF_MEMBERS = [
   {
@@ -203,5 +211,40 @@ export const ACTIVE_PROJECTS = [
     progress: 92,
     members: 2,
     deadline: "Jun 14, 2026",
+  },
+];
+
+export const STATS = [
+  {
+    id: 1,
+    label: "Team Members",
+    value: "22",
+    helper: "Across 6 departments",
+    trend: "+4 this month",
+    icon: Users,
+  },
+  {
+    id: 2,
+    label: "Active Projects",
+    value: "3",
+    helper: "In delivery pipeline",
+    trend: "72% avg progress",
+    icon: FolderKanban,
+  },
+  {
+    id: 3,
+    label: "Completed Tasks",
+    value: "128",
+    helper: "Closed this sprint",
+    trend: "+18% from last sprint",
+    icon: CheckCircle2,
+  },
+  {
+    id: 4,
+    label: "Upcoming Deadlines",
+    value: "5",
+    helper: "Due in the next 14 days",
+    trend: "2 high priority",
+    icon: Clock3,
   },
 ];
