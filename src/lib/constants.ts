@@ -248,3 +248,55 @@ export const STATS = [
     icon: Clock3,
   },
 ];
+
+export const EVENTS = [
+  {
+    id: 1,
+    type: "task_completed",
+    title: "Landing page completed",
+    description: "Sarah marked the landing page design task as completed.",
+    createdAt: "2026-06-12T10:30:00Z",
+  },
+  {
+    id: 2,
+    type: "user_joined",
+    title: "Osman joined the team",
+    description: "Osman Hasanoğlu has accepted the invitation and joined as Developer.",
+    createdAt: "2026-06-11T08:15:00Z",
+  },
+  {
+    id: 3,
+    type: "payment_received",
+    title: "New Subscription Payment",
+    description: "Acme Corp renewed their Enterprise plan ($499.00).",
+    createdAt: "2026-06-11T14:22:00Z",
+  },
+  {
+    id: 4,
+    type: "system_alert",
+    title: "High CPU Usage Warning",
+    description: "Server-prod-01 CPU utilization exceeded 92% for 5 minutes.",
+    createdAt: "2026-06-10T23:45:12Z",
+  },
+  {
+    id: 5,
+    type: "task_created",
+    title: "New Task Created",
+    description: "John created a new task: 'Fix checkout edge-case bug'.",
+    createdAt: "2026-06-10T11:05:00Z",
+  },
+  {
+    id: 6,
+    type: "settings_updated",
+    title: "Security Settings Changed",
+    description: "Two-Factor Authentication (2FA) was made mandatory for all admins.",
+    createdAt: "2026-06-09T09:00:00Z",
+  },
+  {
+    id: 7,
+    type: "user_left",
+    title: "Team Member Left",
+    description: "Ayşe Kaplan has been removed from the workspace.",
+    createdAt: "2026-06-08T17:30:00Z",
+  }
+];

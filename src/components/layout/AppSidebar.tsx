@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-import { mainNavItems, secondaryNavItems } from "@/config/navigation";
+import { adminNavItems, mainNavItems, secondaryNavItems } from "@/config/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -15,11 +16,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { LogOut, MoonIcon } from "lucide-react";
+import { ChevronDown, LogOut, MoonIcon } from "lucide-react";
 import { useAppStore } from "@/lib/stores/appStore";
 import { LogoutConfirmModal } from "../modals/LogoutConfirmModal";
 import { useTheme } from "next-themes";
@@ -28,6 +32,7 @@ import Image from "next/image";
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const [openAdminItems, setOpenAdminItems] = useState<string[]>([]);
 
   const { user } = useAuthStore();
   const { logoutModalIsOpen, setLogoutModalIsOpen } = useAppStore();
@@ -35,6 +40,16 @@ export function AppSidebar() {
   const { setTheme, theme } = useTheme();
 
   const isMobile = useIsMobile();
+
+  const isAdmin = user?.role === "ADMIN";
+
+  const toggleAdminItem = (title: string) => {
+    setOpenAdminItems((currentItems) =>
+      currentItems.includes(title)
+        ? currentItems.filter((item) => item !== title)
+        : [...currentItems, title]
+    );
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -106,6 +121,69 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {isAdmin && (
+          <>
+            <SidebarSeparator />
+
+            <SidebarGroup>
+              <SidebarGroupLabel>Management</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {adminNavItems.map((item) => {
+                    const isItemActive =
+                      pathname === item.href ||
+                      item.subItems.some((subItem) => pathname === subItem.href);
+                    const isOpen = openAdminItems.includes(item.title) || isItemActive;
+
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton
+                          isActive={isItemActive}
+                          tooltip={item.title}
+                          onClick={() => toggleAdminItem(item.title)}
+                          aria-expanded={isOpen}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                          <ChevronDown
+                            className={`ml-auto transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                              }`}
+                          />
+                        </SidebarMenuButton>
+
+                        <div
+                          className={`grid transition-[grid-template-rows,opacity] duration-200 ease-in-out ${isOpen
+                              ? "grid-rows-[1fr] opacity-100"
+                              : "grid-rows-[0fr] opacity-0"
+                            }`}
+                        >
+                          <div className="min-h-0 overflow-hidden">
+                            <SidebarMenuSub>
+                              {item.subItems.map((subItem) => (
+                                <SidebarMenuSubItem key={subItem.title}>
+                                  <SidebarMenuSubButton
+                                    asChild
+                                    isActive={pathname === subItem.href}
+                                  >
+                                    <Link href={subItem.href}>
+                                      <subItem.icon />
+                                      <span>{subItem.title}</span>
+                                    </Link>
+                                  </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                              ))}
+                            </SidebarMenuSub>
+                          </div>
+                        </div>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
       </SidebarContent>
 
       <SidebarFooter />
