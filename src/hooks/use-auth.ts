@@ -6,11 +6,13 @@ export function useAuth() {
   const login = useAuthStore((state) => state.login);
   const logout = useAuthStore((state) => state.logout);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
 
   return {
     user,
     isAuthenticated,
     isLoading,
+    hasHydrated,
     login,
     logout,
   } as const;

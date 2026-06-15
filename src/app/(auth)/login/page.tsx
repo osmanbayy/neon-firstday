@@ -18,7 +18,7 @@ import { ForgotPasswordModal } from "@/components/modals/ForgotPasswordModal";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, isLoading, error, user, isAuthenticated } = useAuthStore();
+  const { login, isLoading, error, isAuthenticated, hasHydrated } = useAuthStore();
 
   const {
     register,
@@ -38,8 +38,9 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginSchema) => {
     const success = await login(data);
 
-    if (success && user) {
-      toast.success(`Welcome back ${user.name}`);
+    if (success) {
+      const user = useAuthStore.getState().user;
+      toast.success(`Welcome back ${user?.name ?? "there"}`);
       setTimeout(() => {
         router.replace("/home");
       }, 500);
@@ -53,10 +54,10 @@ export default function LoginPage() {
 
   // If already authenticated, redirect to home
   useEffect(() => {
-    if (isAuthenticated) {
+    if (hasHydrated && isAuthenticated) {
       router.replace("/home");
     }
-  }, [isAuthenticated, router]);
+  }, [hasHydrated, isAuthenticated, router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">

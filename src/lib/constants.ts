@@ -6,6 +6,17 @@ import {
   FolderKanban,
   Megaphone,
   Users,
+  ZodiacAquarius,
+  ZodiacAries,
+  ZodiacCapricorn,
+  ZodiacGemini,
+  ZodiacLeo,
+  ZodiacLibra,
+  ZodiacPisces,
+  ZodiacSagittarius,
+  ZodiacScorpio,
+  ZodiacTaurus,
+  ZodiacVirgo,
 } from "lucide-react";
 
 export const STAFF_MEMBERS = [
@@ -14,132 +25,154 @@ export const STAFF_MEMBERS = [
     name: "Muhammet Emin Çelik",
     department: "Full Stack Developer",
     zodiac: "Leo",
+    zodiacIcon: ZodiacLeo
   },
   {
     id: 2,
     name: "Burak Gemici",
     department: "Full Stack Developer",
     zodiac: "Pisces",
+    zodiacIcon: ZodiacPisces
   },
   {
     id: 3,
     name: "Esra Betül",
     department: "Full Stack Developer",
     zodiac: "Virgo",
+    zodiacIcon: ZodiacVirgo
   },
   {
     id: 4,
     name: "Berkay Ay",
     department: "Flutter Developer",
     zodiac: "Aquarius",
+    zodiacIcon: ZodiacAquarius
   },
   {
     id: 5,
     name: "Osman Bay",
     department: "Full Stack Developer",
     zodiac: "Aquarius",
+    zodiacIcon: ZodiacAquarius
   },
   {
     id: 6,
     name: "Melisa Kamat",
     department: "UI/UX Designer",
     zodiac: "Sagittarius",
+    zodiacIcon: ZodiacSagittarius
   },
   {
     id: 7,
     name: "Alihan Gezer",
     department: "UI/UX Designer",
     zodiac: "Sagittarius",
+    zodiacIcon: ZodiacSagittarius
   },
   {
     id: 8,
     name: "Hande Nur Topuz",
     department: "UI/UX Designer",
     zodiac: "Aries",
+    zodiacIcon: ZodiacAries
   },
   {
     id: 9,
     name: "Faruk Bineroğlu",
     department: "Flutter Developer",
     zodiac: "Gemini",
+    zodiacIcon: ZodiacGemini
   },
   {
     id: 10,
     name: "Anıl Sorgit",
     department: "Flutter Developer",
     zodiac: "Virgo",
+    zodiacIcon: ZodiacVirgo
   },
   {
     id: 11,
     name: "Dilan Akkaya",
     department: "UI/UX Designer",
     zodiac: "Capricorn",
+    zodiacIcon: ZodiacCapricorn
   },
   {
     id: 12,
     name: "Ayşe Rana Kurada",
     department: "UI/UX Designer",
     zodiac: "Scorpio",
+    zodiacIcon: ZodiacScorpio
   },
   {
     id: 13,
     name: "Doğa Dölekçi",
     department: "UI/UX Designer",
     zodiac: "Aquarius",
+    zodiacIcon: ZodiacAquarius
   },
   {
     id: 14,
     name: "Hasan Bektaş",
     department: "Flutter Developer",
     zodiac: "Pisces",
+    zodiacIcon: ZodiacPisces
   },
   {
     id: 15,
     name: "Furkan Ayan",
     department: "Flutter Developer",
     zodiac: "Taurus",
+    zodiacIcon: ZodiacTaurus
   },
   {
     id: 16,
     name: "Eymen Varilci",
     department: "Project Manager",
     zodiac: "Pisces",
+    zodiacIcon: ZodiacPisces
   },
   {
     id: 17,
     name: "Serhat Yaroğlu",
     department: "IOS Developer",
     zodiac: "Scorpio",
+    zodiacIcon: ZodiacScorpio
   },
   {
     id: 18,
     name: "Barış Karahüseyin",
     department: "Human Resources",
     zodiac: "Scorpio",
+    zodiacIcon: ZodiacScorpio
   },
   {
     id: 19,
     name: "Sarp Çetintaş",
     department: "UI/UX Designer",
     zodiac: "Taurus",
+    zodiacIcon: ZodiacTaurus
   },
   {
     id: 20,
     name: "İlknur Tulgar",
     department: "Flutter Developer",
     zodiac: "Scorpio",
+    zodiacIcon: ZodiacScorpio
   },
   {
     id: 21,
     name: "Anıl Sezgin",
     department: "Full Stack Developer",
     zodiac: "Libra",
+    zodiacIcon: ZodiacLibra
   },
   {
     id: 22,
     name: "Gülberk Aktay",
     department: "UI/UX Designer",
     zodiac: "Taurus",
+    zodiacIcon: ZodiacTaurus
   },
 ];
 

@@ -15,15 +15,15 @@ export function ProtectedRoute({
 }: ProtectedRouteProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, hasHydrated } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated && pathname !== redirectTo) {
+    if (hasHydrated && !isLoading && !isAuthenticated && pathname !== redirectTo) {
       router.push(redirectTo);
     }
-  }, [isAuthenticated, isLoading, pathname, router, redirectTo]);
+  }, [hasHydrated, isAuthenticated, isLoading, pathname, router, redirectTo]);
 
-  if (isLoading) {
+  if (!hasHydrated || isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>

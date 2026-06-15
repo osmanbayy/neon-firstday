@@ -14,6 +14,7 @@ export interface User {
 interface AuthState {
   user: User | null;
   isLoading: boolean;
+  hasHydrated: boolean;
   error: string | null;
   isAuthenticated: boolean;
 
@@ -21,6 +22,7 @@ interface AuthState {
   logout: () => void;
   clearError: () => void;
   setUser: (user: User | null) => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -28,6 +30,7 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       isLoading: false,
+      hasHydrated: false,
       error: null,
       isAuthenticated: false,
 
@@ -89,9 +92,14 @@ export const useAuthStore = create<AuthState>()(
           user,
           isAuthenticated: !!user,
         }),
+
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
       name: "neon-auth-storage",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
