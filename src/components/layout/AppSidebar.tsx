@@ -131,36 +131,52 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {adminNavItems.map((item) => {
+                    const hasSubItems = item.subItems && item.subItems.length > 0
+
                     const isItemActive =
                       pathname === item.href ||
-                      item.subItems.some((subItem) => pathname === subItem.href);
+                      item.subItems?.some((subItem) => pathname === subItem.href);
+                      
                     const isOpen = openAdminItems.includes(item.title) || isItemActive;
 
                     return (
                       <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton
-                          isActive={isItemActive}
-                          tooltip={item.title}
-                          onClick={() => toggleAdminItem(item.title)}
-                          aria-expanded={isOpen}
-                        >
-                          <item.icon />
-                          <span>{item.title}</span>
-                          <ChevronDown
-                            className={`ml-auto transition-transform duration-200 ${isOpen ? "rotate-180" : ""
-                              }`}
-                          />
-                        </SidebarMenuButton>
+                        {hasSubItems ? (
+                          <SidebarMenuButton
+                            isActive={isItemActive}
+                            tooltip={item.title}
+                            onClick={() => toggleAdminItem(item.title)}
+                            aria-expanded={isOpen}
+                          >
+                            <item.icon />
+                            <span>{item.title}</span>
+                            <ChevronDown
+                              className={`ml-auto transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                                }`}
+                            />
+                          </SidebarMenuButton>
+                        ) : (
+                          <SidebarMenuButton
+                            asChild
+                            isActive={pathname === item.href}
+                            tooltip={item.title}
+                          >
+                            <Link href={item.href || "#"}>
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        )}
 
-                        <div
+                        {hasSubItems && <div
                           className={`grid transition-[grid-template-rows,opacity] duration-200 ease-in-out ${isOpen
-                              ? "grid-rows-[1fr] opacity-100"
-                              : "grid-rows-[0fr] opacity-0"
+                            ? "grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] opacity-0"
                             }`}
                         >
                           <div className="min-h-0 overflow-hidden">
                             <SidebarMenuSub>
-                              {item.subItems.map((subItem) => (
+                              {item.subItems?.map((subItem) => (
                                 <SidebarMenuSubItem key={subItem.title}>
                                   <SidebarMenuSubButton
                                     asChild
@@ -175,7 +191,7 @@ export function AppSidebar() {
                               ))}
                             </SidebarMenuSub>
                           </div>
-                        </div>
+                        </div>}
                       </SidebarMenuItem>
                     );
                   })}

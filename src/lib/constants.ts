@@ -8,6 +8,7 @@ import {
   Users,
   ZodiacAquarius,
   ZodiacAries,
+  ZodiacCancer,
   ZodiacCapricorn,
   ZodiacGemini,
   ZodiacLeo,
@@ -332,4 +333,28 @@ export const EVENTS = [
     description: "Ayşe Kaplan has been removed from the workspace.",
     createdAt: "2026-06-08T17:30:00Z",
   }
+];
+
+export const ZODIACS = [
+  { id: 1, title: "Aries", icon: ZodiacAries },
+  { id: 2, title: "Taurus", icon: ZodiacTaurus },
+  { id: 3, title: "Gemini", icon: ZodiacGemini },
+  { id: 4, title: "Cancer", icon: ZodiacCancer },
+  { id: 5, title: "Leo", icon: ZodiacLeo },
+  { id: 6, title: "Virgo", icon: ZodiacVirgo },
+  { id: 7, title: "Libra", icon: ZodiacLibra },
+  { id: 8, title: "Scorpio", icon: ZodiacScorpio },
+  { id: 9, title: "Sagittarius", icon: ZodiacSagittarius },
+  { id: 10, title: "Capricorn", icon: ZodiacCapricorn },
+  { id: 11, title: "Aquarius", icon: ZodiacAquarius },
+  { id: 12, title: "Pisces", icon: ZodiacPisces },
+]
+
+export const DEPARTMENTS = [
+  { id: "eng", title: "Engineering" },
+  { id: "prd", title: "Product Management" },
+  { id: "dsn", title: "Design" },
+  { id: "mkt", title: "Marketing & Sales" },
+  { id: "hr", title: "Human Resources" },
+  { id: "fin", title: "Finance" },
 ];

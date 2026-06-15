@@ -1,4 +1,4 @@
-import { Activity, BarChart3, Briefcase, Calendar, Clock, CreditCardIcon, Home, List, ListChecks, ListTodo, Settings, SettingsIcon, TrendingUp, UserIcon, Users, type LucideIcon } from "lucide-react";
+import { Activity, BarChart3, Briefcase, Calendar, Clock, CreditCardIcon, Home, List, ListChecks, ListTodo, Rocket, Settings, SettingsIcon, TrendingUp, UserIcon, Users, type LucideIcon } from "lucide-react";
 
 export type NavItem = {
   title: string;
@@ -10,7 +10,7 @@ export type AdminNavItem = {
   title: string,
   href: string,
   icon: LucideIcon,
-  subItems: NavItem[]
+  subItems?: NavItem[]
 }
 
 export type UserDropdownItem = {
@@ -47,6 +47,12 @@ export const adminNavItems: AdminNavItem[] = [
       { title: "User Activity", href: "/analytics/activity", icon: Activity },
     ]
   },
+  {
+    title: "Onboarding",
+    href: "/onboarding",
+    icon: Rocket,
+    subItems: []
+  }
 ]
 
 export const secondaryNavItems: NavItem[] = [
