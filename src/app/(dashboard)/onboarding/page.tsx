@@ -9,9 +9,14 @@ import { ConfirmationStep } from "@/components/onboarding/ConfirmationStep";
 import { OnboardingData } from "@/types/onboarding";
 import { useOnboardingStep } from "@/hooks/use-onboarding-step";
 import { Progressbar } from "@/components/onboarding/Progressbar";
+import { toast } from "sonner";
+import { downloadOnboardingCSV } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const { currentStep, goNextStep, goPreviousStep, updateStep } = useOnboardingStep();
+
+  const router = useRouter()
 
   const [formData, setFormData] =
     useState<OnboardingData>({
@@ -35,6 +40,12 @@ export default function Page() {
   let maxPermittedStep = 1;
   if (isIdentityStepValid) maxPermittedStep = 2;
   if (isProfessionalStepValid) maxPermittedStep = 3;
+
+  const handleFinalSubmit = async () => {
+    downloadOnboardingCSV(formData);
+    toast.success("CSV file is ready.");
+    router.push("/home");
+  }
 
 
   return (
@@ -82,11 +93,7 @@ export default function Page() {
           onBack={
             goPreviousStep
           }
-          onSubmit={() => {
-            console.log(
-              formData
-            );
-          }}
+          onSubmit={handleFinalSubmit}
         />
       )}
     </div>
