@@ -23,7 +23,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { ChevronDown, LogOut, MoonIcon } from "lucide-react";
+import { ChevronDown, LogOut, MoonIcon, User } from "lucide-react";
 import { useAppStore } from "@/lib/stores/appStore";
 import { LogoutConfirmModal } from "../modals/LogoutConfirmModal";
 import { useTheme } from "next-themes";
@@ -136,7 +136,7 @@ export function AppSidebar() {
                     const isItemActive =
                       pathname === item.href ||
                       item.subItems?.some((subItem) => pathname === subItem.href);
-                      
+
                     const isOpen = openAdminItems.includes(item.title) || isItemActive;
 
                     return (
@@ -209,6 +209,15 @@ export function AppSidebar() {
         <SidebarGroupLabel>Account</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
+            <SidebarMenuItem className="cursor-pointer">
+              <SidebarMenuButton tooltip="User">
+                <div className="flex items-center w-full gap-5">
+                  <User size={12} />
+                  <span className="text-sm">{user?.role}</span>
+
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
             <SidebarMenuItem className="cursor-pointer">
               <SidebarMenuButton tooltip="Logout" onClick={() => setLogoutModalIsOpen(true)}>
                 <LogOut />

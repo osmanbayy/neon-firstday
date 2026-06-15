@@ -1,41 +1,25 @@
 "use client";
 
-import { useState } from "react";
-
 import { IdentityStep } from "@/components/onboarding/IdentityStep";
 import { ProfessionalStep } from "@/components/onboarding/ProfessionalStep";
 import { ConfirmationStep } from "@/components/onboarding/ConfirmationStep";
 
-import { OnboardingData } from "@/types/onboarding";
 import { useOnboardingStep } from "@/hooks/use-onboarding-step";
 import { Progressbar } from "@/components/onboarding/Progressbar";
 import { toast } from "sonner";
 import { downloadOnboardingCSV } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useOnboardingStore } from "@/lib/stores/onboardingStore";
 
 export default function Page() {
   const { currentStep, goNextStep, goPreviousStep, updateStep } = useOnboardingStep();
 
   const router = useRouter()
 
-  const [formData, setFormData] =
-    useState<OnboardingData>({
-      firstName: "",
-      lastName: "",
-      zodiac: "",
-      department: "",
-      role: "",
-    });
+  const { formData, saveData, clearOnboarding } = useOnboardingStore()
 
   const isIdentityStepValid = !!(formData.firstName && formData.lastName && formData.zodiac);
   const isProfessionalStepValid = !!(formData.department && formData.role)
-
-  const saveData = (values: Partial<OnboardingData>) => {
-    setFormData((prev) => ({
-      ...prev,
-      ...values,
-    }));
-  };
 
   let maxPermittedStep = 1;
   if (isIdentityStepValid) maxPermittedStep = 2;
@@ -43,7 +27,8 @@ export default function Page() {
 
   const handleFinalSubmit = async () => {
     downloadOnboardingCSV(formData);
-    toast.success("CSV file is ready.");
+    toast.success("Form Downloaded successfully with CSV format.");
+    clearOnboarding();
     router.push("/home");
   }
 
@@ -70,15 +55,10 @@ export default function Page() {
       {currentStep === 2 && (
         <ProfessionalStep
           defaultValues={{
-            department:
-              formData.department,
-
-            role:
-              formData.role,
+            department: formData.department,
+            role: formData.role,
           }}
-          onBack={
-            goPreviousStep
-          }
+          onBack={goPreviousStep}
           onNext={(values) => {
             saveData(values);
 
@@ -90,9 +70,7 @@ export default function Page() {
       {currentStep === 3 && (
         <ConfirmationStep
           data={formData}
-          onBack={
-            goPreviousStep
-          }
+          onBack={goPreviousStep}
           onSubmit={handleFinalSubmit}
         />
       )}

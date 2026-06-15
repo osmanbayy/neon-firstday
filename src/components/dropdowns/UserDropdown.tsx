@@ -29,10 +29,6 @@ export function UserDropdown() {
           </div>
         </button>
       </DropdownMenuTrigger>
-      <div className="flex flex-col gap-0.5 leading-none">
-        <span className="text-xs font-medium max-sm:hidden text-foreground">{user?.email}</span>
-        <span className="text-xs text-sidebar-foreground/70 max-sm:hidden">{user?.role}</span>
-      </div>
       <DropdownMenuContent align="end" side="bottom" sideOffset={8}>
         {userDropdownItems.map((item) => (
           <DropdownMenuItem key={item.title}>
