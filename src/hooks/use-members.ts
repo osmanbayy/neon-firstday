@@ -18,16 +18,12 @@ export const useMembers = () => {
     queryKey: ["members"],
 
     queryFn: async () => {
-      const [users, posts] =
-        await Promise.all([
-          getUsers(),
-          getPosts(),
-        ]);
+      const [users, posts] = await Promise.all([
+        getUsers(),
+        getPosts(),
+      ]);
 
-      return {
-        users,
-        posts,
-      };
+      return { users, posts };
     },
 
     select: (data) => {
@@ -36,17 +32,11 @@ export const useMembers = () => {
         (_, batch) =>
           data.users.map((user) => ({
             ...user,
-            id:
-              batch *
-                data.users.length +
-              user.id,
+            id: batch * data.users.length + user.id,
           }))
       ).flat();
 
-      return mapUserToMembers(
-        expandedUsers,
-        data.posts
-      );
+      return mapUserToMembers(expandedUsers, data.posts);
     },
 
     staleTime: 1000 * 60 * 5,

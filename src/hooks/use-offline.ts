@@ -1,40 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export const useOffline = () => {
-  const [isOffline, setIsOffline] =
-    useState(false);
+  const [isOffline, setIsOffline] = useState(false);
 
   useEffect(() => {
-    const handleOffline = () =>
+    const handleOffline = () => {
       setIsOffline(true);
 
-    const handleOnline = () =>
+      toast.error("Connection lost", { description: "You are offline.", duration: Infinity });
+    };
+
+    const handleOnline = () => {
       setIsOffline(false);
 
-    window.addEventListener(
-      "offline",
-      handleOffline
-    );
+      toast.dismiss();
 
-    window.addEventListener(
-      "online",
-      handleOnline
-    );
+      toast.success("Connection restored", { description: "You are online." });
+    };
+
+    window.addEventListener("offline", handleOffline);
+
+    window.addEventListener("online", handleOnline);
 
     setIsOffline(!navigator.onLine);
 
     return () => {
-      window.removeEventListener(
-        "offline",
-        handleOffline
-      );
+      window.removeEventListener("offline", handleOffline);
 
-      window.removeEventListener(
-        "online",
-        handleOnline
-      );
+      window.removeEventListener("online", handleOnline);
     };
   }, []);
 

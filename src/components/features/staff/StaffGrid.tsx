@@ -4,11 +4,12 @@ import { useMembers } from "@/hooks/use-members";
 import { useOffline } from "@/hooks/use-offline";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, RefreshCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, RefreshCw, Table2 } from "lucide-react";
 import { StaffCard } from "./StaffCard";
-import OfflineAlert from "./OfflineAlert";
 import StaffCardSkeleton from "@/components/skeletons/StaffCardSkeleton";
 import { usePagination } from "@/hooks/use-pagination";
+import { useView } from "@/hooks/use-view";
+import { StaffTable } from "./StaffTable";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -22,7 +23,7 @@ export function StaffGrid() {
     refetch
   } = useMembers();
 
-  const isOffline = useOffline();
+  useOffline();
 
   const {
     currentPage,
@@ -35,14 +36,17 @@ export function StaffGrid() {
     itemsPerPage: ITEMS_PER_PAGE,
   });
 
+  const { view, setView } = useView();
+
   if (isError) {
     return (
       <div className="p-5 text-center space-y-3">
         <p className="text-sm text-destructive font-medium">
-          Veriler yüklenirken bir hata oluştu: {error?.message || "Bilinmeyen Hata"}
+          An error occurred while uploading the data.
+          : {error?.message || "Unknown error"}
         </p>
         <Button variant="outline" onClick={() => refetch()}>
-          Tekrar Dene
+          Try again
         </Button>
       </div>
     );
@@ -60,39 +64,79 @@ export function StaffGrid() {
           </p>
         </div>
 
-        <Button
-          variant="outline"
-          onClick={() => refetch()}
-          disabled={isFetching || isLoading}
-          className="sm:w-auto w-full justify-center"
-        >
-          <RefreshCw
-            className={`mr-2 h-4 w-4 ${isFetching ? "animate-spin" : ""
-              }`}
-          />
-          Refresh
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => refetch()}
+            disabled={
+              isFetching || isLoading
+            }
+          >
+            <RefreshCw
+              className={`mr-2 h-4 w-4 ${isFetching
+                ? "animate-spin"
+                : ""
+                }`}
+            />
+
+            Refresh
+          </Button>
+
+          <Button
+            size="icon"
+            variant={
+              view === "grid"
+                ? "default"
+                : "outline"
+            }
+            onClick={() =>
+              setView("grid")
+            }
+          >
+            <LayoutGrid size={18} />
+          </Button>
+
+          <Button
+            size="icon"
+            variant={
+              view === "table"
+                ? "default"
+                : "outline"
+            }
+            onClick={() =>
+              setView("table")
+            }
+          >
+            <Table2 size={18} />
+          </Button>
+        </div>
       </div>
 
-      {isOffline && (
-        <OfflineAlert
-          isOffline={isOffline}
+      {view === "grid" ? (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {isLoading
+            ? Array.from({
+              length:
+                ITEMS_PER_PAGE,
+            }).map((_, index) => (
+              <StaffCardSkeleton
+                key={index}
+              />
+            ))
+            : paginatedData.map(
+              (staff) => (
+                <StaffCard
+                  key={staff.id}
+                  {...staff}
+                />
+              )
+            )}
+        </div>
+      ) : (
+        <StaffTable
+          data={paginatedData}
         />
       )}
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {isLoading
-          ? Array.from({
-            length: ITEMS_PER_PAGE,
-          }).map((_, index) => (
-            <StaffCardSkeleton
-              key={index}
-            />
-          ))
-          : paginatedData.map((staff) => (
-            <StaffCard key={staff.id} {...staff} />
-          ))}
-      </div>
 
       {/* Empty state message */}
       {!isLoading && paginatedData.length === 0 && (
