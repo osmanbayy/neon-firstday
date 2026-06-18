@@ -10,18 +10,27 @@ import StaffCardSkeleton from "@/components/skeletons/StaffCardSkeleton";
 import { usePagination } from "@/hooks/use-pagination";
 import { useView } from "@/hooks/use-view";
 import { StaffTable } from "./StaffTable";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { getZodiacAnalytics } from "@/lib/utils";
 import { ZodiacAnalyticsModal } from "@/components/modals/ZodiacAnalyticsModal";
 import { useSearchMembers } from "@/hooks/use-search-members";
 import { StaffToolbar } from "./StaffToolbar";
 import { CsvUploadModal } from "@/components/modals/CsvUploadModal";
+import { useDebounce } from "@/hooks/use-debounce";
+import { SortOption } from "@/lib/types/app";
+import { useSort } from "@/hooks/use-sort";
 
 const ITEMS_PER_PAGE = 9;
 
 export function StaffGrid() {
   const [search, setSearch] = useState<string>("");
   const [csvModalOpen, setCsvModalOpen] = useState(false);
+
+  const debouncedSearch = useDebounce(search, 300);
+
+  const [sortBy, setSortBy] = useState<SortOption>("name-asc");
+
+  const [field, direction] = sortBy.split("-");
 
   const {
     data: members = [],
@@ -32,8 +41,13 @@ export function StaffGrid() {
     refetch
   } = useMembers();
 
-  const filteredMembers = useSearchMembers({ members, search })
+  const filteredMembers = useSearchMembers({ members, search: debouncedSearch })
 
+  const sortedMembers = useSort({
+    data: filteredMembers,
+    sortBy: field as "name" | "department",
+    direction: direction as "asc" | "desc",
+  });
   useOffline();
 
   const {
@@ -43,7 +57,7 @@ export function StaffGrid() {
     paginatedData,
     changePage,
   } = usePagination({
-    data: filteredMembers,
+    data: sortedMembers,
     itemsPerPage: ITEMS_PER_PAGE,
   });
 
@@ -52,6 +66,9 @@ export function StaffGrid() {
   const [analyzeZodiacModalIsOpen, setAnalyzeModalIsOpen] = useState<boolean>(false);
 
   const zodiacAnalytic = useMemo(() => getZodiacAnalytics(members), [members]);
+
+  const handleAnalyze = useCallback(() => setAnalyzeModalIsOpen(true), []);
+  const handleOpenCsvModal = useCallback(() => { setCsvModalOpen(true) }, []);
 
   if (isError) {
     return (
@@ -83,13 +100,15 @@ export function StaffGrid() {
           isFetching={isFetching}
           isLoading={isLoading}
           view={view}
-          onAnalyze={() => setAnalyzeModalIsOpen(true)}
+          onAnalyze={handleAnalyze}
           onRefresh={refetch}
           onSearchChange={setSearch}
           onViewChange={setView}
           resultsCount={filteredMembers.length}
           search={search}
-          onOpenCsvModal={() => setCsvModalOpen(true)}
+          onOpenCsvModal={handleOpenCsvModal}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
         />
       </div>
 
