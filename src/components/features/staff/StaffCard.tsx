@@ -3,6 +3,7 @@ import * as LucideIcons from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
+import { Highlight } from "./Highlight";
 
 interface StaffCardProps {
   id: number;
@@ -15,6 +16,7 @@ interface StaffCardProps {
   zodiac: string;
   zodiacIcon: LucideIcons.LucideIcon,
   postCount: number;
+  search: string;
 }
 export function StaffCard({
   id,
@@ -27,6 +29,7 @@ export function StaffCard({
   zodiac,
   zodiacIcon: ZodiacIcon,
   postCount,
+  search,
 }: StaffCardProps) {
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-linear-to-br from-background via-background to-muted/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
@@ -50,7 +53,7 @@ export function StaffCard({
               ID: #{id}
             </span>
             <h2 className="mt-0.5 text-lg font-bold tracking-tight text-foreground truncate font-sans">
-              {name}
+              <Highlight text={name} query={search} />
             </h2>
             <p className="text-xs text-primary/80 font-medium truncate">
               @{username}
@@ -66,8 +69,8 @@ export function StaffCard({
             <ZodiacIcon size={14} className="" />
             {zodiac}
           </div>
-          <div className="inline-flex justify-center items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary select-none shrink-0 capitalize">
-            {department}
+          <div className="inline-flex justify-center items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary select-none shrink-0">
+            <Highlight query={search} text={department} />
           </div>
         </div>
       </div>

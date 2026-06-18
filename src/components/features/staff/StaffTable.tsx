@@ -11,13 +11,16 @@ import {
 
 import { Mail, Phone } from "lucide-react";
 import { Member } from "@/lib/types/user";
+import { Highlight } from "./Highlight";
 
 interface StaffTableProps {
   data: Member[];
+  search: string;
 }
 
 export function StaffTable({
   data,
+  search
 }: StaffTableProps) {
   return (
     <div className="overflow-hidden rounded-2xl border bg-background">
@@ -46,7 +49,7 @@ export function StaffTable({
                 <TableCell>
                   <div>
                     <p className="font-medium">
-                      {staff.name}
+                      <Highlight text={staff.name} query={search} />
                     </p>
 
                     <p className="text-xs text-muted-foreground">
@@ -56,7 +59,7 @@ export function StaffTable({
                 </TableCell>
 
                 <TableCell>
-                  {staff.department}
+                  <Highlight query={search} text={staff.department} />
                 </TableCell>
 
                 <TableCell>

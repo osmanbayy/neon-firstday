@@ -1,16 +1,23 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ViewMode } from "@/lib/types/app";
+
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 export const useView = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const view =
-    searchParams.get("view") ?? "grid";
+  const rawView = searchParams.get("view");
 
-  const setView = (value: "grid" | "table") => {
+  const view: ViewMode = rawView === "table" ? "table" : "grid";
+
+  const setView = (value: ViewMode) => {
     const params = new URLSearchParams(searchParams.toString());
 
     params.set("view", value);

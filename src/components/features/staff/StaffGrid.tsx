@@ -13,10 +13,15 @@ import { StaffTable } from "./StaffTable";
 import { useMemo, useState } from "react";
 import { getZodiacAnalytics } from "@/lib/utils";
 import { ZodiacAnalyticsModal } from "@/components/modals/ZodiacAnalyticsModal";
+import { Input } from "@/components/ui/input";
+import { useSearchMembers } from "@/hooks/use-search-members";
+import { StaffToolbar } from "./StaffToolbar";
 
 const ITEMS_PER_PAGE = 9;
 
 export function StaffGrid() {
+  const [search, setSearch] = useState<string>("");
+
   const {
     data: members = [],
     isLoading,
@@ -25,6 +30,8 @@ export function StaffGrid() {
     error,
     refetch
   } = useMembers();
+
+  const filteredMembers = useSearchMembers({ members, search })
 
   useOffline();
 
@@ -35,7 +42,7 @@ export function StaffGrid() {
     paginatedData,
     changePage,
   } = usePagination({
-    data: members,
+    data: filteredMembers,
     itemsPerPage: ITEMS_PER_PAGE,
   });
 
@@ -43,7 +50,8 @@ export function StaffGrid() {
 
   const [analyzeZodiacModalIsOpen, setAnalyzeModalIsOpen] = useState<boolean>(false);
 
-  const zodiacAnalytic = useMemo(() => getZodiacAnalytics(members), [members])
+
+  const zodiacAnalytic = useMemo(() => getZodiacAnalytics(members), [members]);
 
   if (isError) {
     return (
@@ -71,62 +79,17 @@ export function StaffGrid() {
           </p>
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            size="icon"
-            variant={
-              view === "grid"
-                ? "default"
-                : "outline"
-            }
-            onClick={() =>
-              setView("grid")
-            }
-          >
-            <LayoutGrid size={18} />
-          </Button>
-
-          <Button
-            size="icon"
-            variant={
-              view === "table"
-                ? "default"
-                : "outline"
-            }
-            onClick={() =>
-              setView("table")
-            }
-          >
-            <Table2 size={18} />
-          </Button>
-
-          <Button
-            variant={"outline"}
-            onClick={() => setAnalyzeModalIsOpen(true)}
-            className="cursor-pointer"
-          >
-            <ChartColumn size={4} />
-            Analyze Zodiacs
-          </Button>
-
-          <Button
-            variant="outline"
-            onClick={() => refetch()}
-            disabled={
-              isFetching || isLoading
-            }
-            className="cursor-pointer"
-          >
-            <RefreshCw
-              className={`mr-2 h-4 w-4 ${isFetching
-                ? "animate-spin"
-                : ""
-                }`}
-            />
-
-            Refresh
-          </Button>
-        </div>
+        <StaffToolbar
+          isFetching={isFetching}
+          isLoading={isLoading}
+          view={view}
+          onAnalyze={() => setAnalyzeModalIsOpen(true)}
+          onRefresh={refetch}
+          onSearchChange={setSearch}
+          onViewChange={setView}
+          resultsCount={filteredMembers.length}
+          search={search}
+        />
       </div>
 
       {view === "grid" ? (
@@ -145,6 +108,7 @@ export function StaffGrid() {
                 <StaffCard
                   key={staff.id}
                   {...staff}
+                  search={search}
                 />
               )
             )}
@@ -152,6 +116,7 @@ export function StaffGrid() {
       ) : (
         <StaffTable
           data={paginatedData}
+          search={search}
         />
       )}
 
