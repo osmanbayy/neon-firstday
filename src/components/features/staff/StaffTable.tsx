@@ -26,6 +26,7 @@ export function StaffTable({
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Department</TableHead>
+            <TableHead>Role</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Zodiac</TableHead>
@@ -56,6 +57,10 @@ export function StaffTable({
 
                 <TableCell>
                   {staff.department}
+                </TableCell>
+
+                <TableCell>
+                  {staff.role}
                 </TableCell>
 
                 <TableCell>

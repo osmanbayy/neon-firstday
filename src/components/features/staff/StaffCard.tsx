@@ -11,6 +11,7 @@ interface StaffCardProps {
   email: string;
   phone: string;
   department: string,
+  role: string;
   zodiac: string;
   zodiacIcon: LucideIcons.LucideIcon,
   postCount: number;
@@ -22,6 +23,7 @@ export function StaffCard({
   email,
   phone,
   department,
+  role,
   zodiac,
   zodiacIcon: ZodiacIcon,
   postCount,
@@ -54,14 +56,19 @@ export function StaffCard({
               @{username}
             </p>
             <p className="text-xs text-primary/80 font-medium truncate">
-              {department}
+              {role}
             </p>
           </div>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary select-none shrink-0 capitalize">
-          <ZodiacIcon size={14} className="animate-pulse" />
-          {zodiac}
+        <div className="flex flex-col gap-2">
+          <div className="inline-flex justify-center items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary select-none shrink-0 capitalize">
+            <ZodiacIcon size={14} className="" />
+            {zodiac}
+          </div>
+          <div className="inline-flex justify-center items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary select-none shrink-0 capitalize">
+            {department}
+          </div>
         </div>
       </div>
 

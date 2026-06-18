@@ -21,6 +21,7 @@ export const mapUserToMembers = (
 
       // From Local Staff
       name: staff.name,
+      role: staff.role,
       department: staff.department,
       zodiac: staff.zodiac,
       zodiacIcon: staff.zodiacIcon,

@@ -21,6 +21,7 @@ export interface Member {
   username: string;
   email: string;
   phone: string;
+  role: string;
   department: string;
   zodiac: string;
   zodiacIcon: LucideIcon;

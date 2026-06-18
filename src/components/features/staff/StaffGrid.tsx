@@ -4,12 +4,15 @@ import { useMembers } from "@/hooks/use-members";
 import { useOffline } from "@/hooks/use-offline";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, LayoutGrid, RefreshCw, Table2 } from "lucide-react";
+import { ChartColumn, ChevronLeft, ChevronRight, LayoutGrid, RefreshCw, Table2 } from "lucide-react";
 import { StaffCard } from "./StaffCard";
 import StaffCardSkeleton from "@/components/skeletons/StaffCardSkeleton";
 import { usePagination } from "@/hooks/use-pagination";
 import { useView } from "@/hooks/use-view";
 import { StaffTable } from "./StaffTable";
+import { useMemo, useState } from "react";
+import { getZodiacAnalytics } from "@/lib/utils";
+import { ZodiacAnalyticsModal } from "@/components/modals/ZodiacAnalyticsModal";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -37,6 +40,10 @@ export function StaffGrid() {
   });
 
   const { view, setView } = useView();
+
+  const [analyzeZodiacModalIsOpen, setAnalyzeModalIsOpen] = useState<boolean>(false);
+
+  const zodiacAnalytic = useMemo(() => getZodiacAnalytics(members), [members])
 
   if (isError) {
     return (
@@ -66,23 +73,6 @@ export function StaffGrid() {
 
         <div className="flex gap-2">
           <Button
-            variant="outline"
-            onClick={() => refetch()}
-            disabled={
-              isFetching || isLoading
-            }
-          >
-            <RefreshCw
-              className={`mr-2 h-4 w-4 ${isFetching
-                ? "animate-spin"
-                : ""
-                }`}
-            />
-
-            Refresh
-          </Button>
-
-          <Button
             size="icon"
             variant={
               view === "grid"
@@ -108,6 +98,33 @@ export function StaffGrid() {
             }
           >
             <Table2 size={18} />
+          </Button>
+
+          <Button
+            variant={"outline"}
+            onClick={() => setAnalyzeModalIsOpen(true)}
+            className="cursor-pointer"
+          >
+            <ChartColumn size={4} />
+            Analyze Zodiacs
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => refetch()}
+            disabled={
+              isFetching || isLoading
+            }
+            className="cursor-pointer"
+          >
+            <RefreshCw
+              className={`mr-2 h-4 w-4 ${isFetching
+                ? "animate-spin"
+                : ""
+                }`}
+            />
+
+            Refresh
           </Button>
         </div>
       </div>
@@ -210,6 +227,12 @@ export function StaffGrid() {
           </div>
         )}
       </div>
+
+      <ZodiacAnalyticsModal
+        analytics={zodiacAnalytic}
+        open={analyzeZodiacModalIsOpen}
+        onOpenChange={setAnalyzeModalIsOpen}
+      />
     </section>
   );
 }
