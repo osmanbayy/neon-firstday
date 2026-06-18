@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import {
   ChartColumn,
   LayoutGrid,
+  MoreHorizontal,
   RefreshCw,
   Table2,
+  Upload,
 } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 type StaffHeaderButtonGroupProps = {
   search: string;
@@ -24,6 +27,7 @@ type StaffHeaderButtonGroupProps = {
 
   onAnalyze: () => void;
   onRefresh: () => void;
+  onOpenCsvModal: () => void;
 
   isLoading: boolean;
   isFetching: boolean;
@@ -39,6 +43,7 @@ export function StaffToolbar({
   onRefresh,
   isLoading,
   isFetching,
+  onOpenCsvModal
 }: StaffHeaderButtonGroupProps) {
   return (
     <div className="flex gap-2">
@@ -92,33 +97,43 @@ export function StaffToolbar({
         <Table2 size={18} />
       </Button>
 
-      <Button
-        variant="outline"
-        onClick={onAnalyze}
-        className="cursor-pointer"
-      >
-        <ChartColumn
-          className="mr-2 h-4 w-4"
-        />
-        Analyze Zodiacs
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+          >
+            <MoreHorizontal />
+            Quick Actions
+          </Button>
+        </DropdownMenuTrigger>
 
-      <Button
-        variant="outline"
-        onClick={onRefresh}
-        disabled={
-          isLoading || isFetching
-        }
-        className="cursor-pointer"
-      >
-        <RefreshCw
-          className={`mr-2 h-4 w-4 ${isFetching
-              ? "animate-spin"
-              : ""
-            }`}
-        />
-        Refresh
-      </Button>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuItem
+            onClick={onAnalyze}
+            className="cursor-pointer"
+          >
+            <ChartColumn />
+            Analyze Zodiacs
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={onOpenCsvModal}
+            className="cursor-pointer"
+          >
+            <Upload />
+            Upload CSV
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={onRefresh}
+            className="cursor-pointer"
+            disabled={isLoading || isFetching}
+          >
+            <RefreshCw />
+            Refresh List
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }

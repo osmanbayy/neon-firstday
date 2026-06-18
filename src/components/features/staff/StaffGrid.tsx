@@ -4,7 +4,7 @@ import { useMembers } from "@/hooks/use-members";
 import { useOffline } from "@/hooks/use-offline";
 
 import { Button } from "@/components/ui/button";
-import { ChartColumn, ChevronLeft, ChevronRight, LayoutGrid, RefreshCw, Table2 } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { StaffCard } from "./StaffCard";
 import StaffCardSkeleton from "@/components/skeletons/StaffCardSkeleton";
 import { usePagination } from "@/hooks/use-pagination";
@@ -13,14 +13,15 @@ import { StaffTable } from "./StaffTable";
 import { useMemo, useState } from "react";
 import { getZodiacAnalytics } from "@/lib/utils";
 import { ZodiacAnalyticsModal } from "@/components/modals/ZodiacAnalyticsModal";
-import { Input } from "@/components/ui/input";
 import { useSearchMembers } from "@/hooks/use-search-members";
 import { StaffToolbar } from "./StaffToolbar";
+import { CsvUploadModal } from "@/components/modals/CsvUploadModal";
 
 const ITEMS_PER_PAGE = 9;
 
 export function StaffGrid() {
   const [search, setSearch] = useState<string>("");
+  const [csvModalOpen, setCsvModalOpen] = useState(false);
 
   const {
     data: members = [],
@@ -49,7 +50,6 @@ export function StaffGrid() {
   const { view, setView } = useView();
 
   const [analyzeZodiacModalIsOpen, setAnalyzeModalIsOpen] = useState<boolean>(false);
-
 
   const zodiacAnalytic = useMemo(() => getZodiacAnalytics(members), [members]);
 
@@ -89,19 +89,15 @@ export function StaffGrid() {
           onViewChange={setView}
           resultsCount={filteredMembers.length}
           search={search}
+          onOpenCsvModal={() => setCsvModalOpen(true)}
         />
       </div>
 
       {view === "grid" ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {isLoading
-            ? Array.from({
-              length:
-                ITEMS_PER_PAGE,
-            }).map((_, index) => (
-              <StaffCardSkeleton
-                key={index}
-              />
+            ? Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+              <StaffCardSkeleton key={index} />
             ))
             : paginatedData.map(
               (staff) => (
@@ -138,9 +134,7 @@ export function StaffGrid() {
             <Button
               variant="outline"
               disabled={currentPage === 1}
-              onClick={() =>
-                changePage(currentPage - 1)
-              }
+              onClick={() => changePage(currentPage - 1)}
               className="cursor-pointer disabled:cursor-not-allowed"
             >
               <ChevronLeft size={16} />
@@ -162,15 +156,9 @@ export function StaffGrid() {
                 return (
                   <Button
                     key={page}
-                    variant={
-                      currentPage === page
-                        ? "default"
-                        : "outline"
-                    }
+                    variant={currentPage === page ? "default" : "outline"}
                     size="icon"
-                    onClick={() =>
-                      changePage(Number(page))
-                    }
+                    onClick={() => changePage(Number(page))}
                     className="cursor-pointer"
                   >
                     {page}
@@ -182,9 +170,7 @@ export function StaffGrid() {
             <Button
               variant="outline"
               disabled={currentPage === totalPages}
-              onClick={() =>
-                changePage(currentPage + 1)
-              }
+              onClick={() => changePage(currentPage + 1)}
               className="cursor-pointer"
             >
               <ChevronRight size={16} />
@@ -197,6 +183,11 @@ export function StaffGrid() {
         analytics={zodiacAnalytic}
         open={analyzeZodiacModalIsOpen}
         onOpenChange={setAnalyzeModalIsOpen}
+      />
+
+      <CsvUploadModal
+        open={csvModalOpen}
+        onOpenChange={setCsvModalOpen}
       />
     </section>
   );
