@@ -1,4 +1,6 @@
-# Neon First Day
+# Neon Apps Frontend Task
+
+![Dashboard Preview](./public/screenshots/dashboard.png)
 
 A modern employee onboarding and internal staff management dashboard built with Next.js, TypeScript, TanStack Query, Zustand, Tailwind CSS, and shadcn/ui.
 
