@@ -5,7 +5,6 @@ import { useOffline } from "@/hooks/use-offline";
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { StaffCard } from "./StaffCard";
 import StaffCardSkeleton from "@/components/skeletons/StaffCardSkeleton";
 import { usePagination } from "@/hooks/use-pagination";
 import { useView } from "@/hooks/use-view";
@@ -19,12 +18,16 @@ import { CsvUploadModal } from "@/components/modals/CsvUploadModal";
 import { useDebounce } from "@/hooks/use-debounce";
 import { SortOption } from "@/lib/types/app";
 import { useSort } from "@/hooks/use-sort";
+import StaffCard from "./StaffCard";
 
 const ITEMS_PER_PAGE = 9;
 
 export function StaffGrid() {
   const [search, setSearch] = useState<string>("");
   const [csvModalOpen, setCsvModalOpen] = useState(false);
+
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+  const [deletedIds, setDeletedIds] = useState<Set<number>>(new Set());
 
   const debouncedSearch = useDebounce(search, 300);
 
@@ -48,6 +51,13 @@ export function StaffGrid() {
     sortBy: field as "name" | "department",
     direction: direction as "asc" | "desc",
   });
+
+  const visibleMembers = useMemo(() => {
+    return sortedMembers.filter(
+      (member) => !deletedIds.has(member.id)
+    );
+  }, [sortedMembers, deletedIds]);
+
   useOffline();
 
   const {
@@ -57,7 +67,7 @@ export function StaffGrid() {
     paginatedData,
     changePage,
   } = usePagination({
-    data: sortedMembers,
+    data: visibleMembers,
     itemsPerPage: ITEMS_PER_PAGE,
   });
 
@@ -69,6 +79,29 @@ export function StaffGrid() {
 
   const handleAnalyze = useCallback(() => setAnalyzeModalIsOpen(true), []);
   const handleOpenCsvModal = useCallback(() => { setCsvModalOpen(true) }, []);
+
+  const toggleSelection = useCallback((id: number) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+
+      return next;
+    });
+  }, []);
+
+  const handleBatchDelete = useCallback(() => {
+    setDeletedIds((prev) => {
+      const next = new Set(prev);
+
+      selectedIds.forEach((id) => next.add(id));
+
+      return next;
+    });
+
+    setSelectedIds(new Set());
+  }, [selectedIds]);
 
   if (isError) {
     return (
@@ -109,6 +142,8 @@ export function StaffGrid() {
           onOpenCsvModal={handleOpenCsvModal}
           sortBy={sortBy}
           setSortBy={setSortBy}
+          selectedCount={selectedIds.size}
+          onBatchDelete={handleBatchDelete}
         />
       </div>
 
@@ -123,7 +158,9 @@ export function StaffGrid() {
                 <StaffCard
                   key={staff.id}
                   {...staff}
-                  search={search}
+                  search={debouncedSearch}
+                  isSelected={selectedIds.has(staff.id)}
+                  onSelect={toggleSelection}
                 />
               )
             )}

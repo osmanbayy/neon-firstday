@@ -19,6 +19,8 @@ export function StaffToolbar({
   onOpenCsvModal,
   sortBy,
   setSortBy,
+  selectedCount,
+  onBatchDelete
 }: StaffHeaderButtonGroupProps) {
   return (
     <div className="flex gap-2">
@@ -49,7 +51,7 @@ export function StaffToolbar({
 
       <Button
         size="icon"
-        variant={ view === "table" ? "default" : "outline"}
+        variant={view === "table" ? "default" : "outline"}
         onClick={() => onViewChange("table")}
         className="cursor-pointer"
       >
@@ -117,6 +119,14 @@ export function StaffToolbar({
           </SelectItem>
         </SelectContent>
       </Select>
+
+      {selectedCount > 0 && <Button
+        variant="destructive"
+        disabled={selectedCount === 0}
+        onClick={onBatchDelete}
+      >
+        Delete Selected ({selectedCount})
+      </Button>}
     </div>
   );
 }

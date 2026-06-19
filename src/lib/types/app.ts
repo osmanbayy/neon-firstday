@@ -27,4 +27,6 @@ export type StaffHeaderButtonGroupProps = {
   isFetching: boolean;
   sortBy: SortOption;
   setSortBy: (value: SortOption) => void;
+  selectedCount: number;
+  onBatchDelete: () => void;  
 };

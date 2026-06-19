@@ -16,8 +16,7 @@ export function Highlight({
     "gi"
   );
 
-  const parts =
-    text.split(regex);
+  const parts = text.split(regex);
 
   return (
     <>
