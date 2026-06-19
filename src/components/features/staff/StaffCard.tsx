@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Highlight } from "./Highlight";
 import { memo } from "react";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/use-auth";
 
 interface StaffCardProps {
   id: number;
@@ -22,6 +23,7 @@ interface StaffCardProps {
   isSelected: boolean;
   onSelect: (id: number) => void;
 }
+
 function StaffCard({
   id,
   name,
@@ -37,16 +39,21 @@ function StaffCard({
   isSelected,
   onSelect
 }: StaffCardProps) {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-linear-to-br from-background via-background to-muted/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
 
-      <div className="absolute top-2 right-2 z-50">
-        <Input type="checkbox" checked={isSelected} onChange={() => onSelect(id)} className="size-5 cursor-pointer" />
-      </div>
+      {isAdmin && (
+        <div className="absolute top-2 right-2 z-50">
+          <Input type="checkbox" checked={isSelected} onChange={() => onSelect(id)} className="size-5 cursor-pointer" />
+        </div>
+      )}
 
       <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      
-      <div className="relative flex items-start justify-between gap-4 mt-4">
+
+      <div className={`relative flex items-start justify-between gap-4 ${isAdmin && "mt-4"}`}>
         <div className="flex items-center gap-4 min-w-0">
           <div className="relative shrink-0">
             <div className="absolute inset-0 rounded-full bg-primary/20 blur-md" />

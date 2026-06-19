@@ -1,3 +1,5 @@
+import { Member } from "./user";
+
 export type ViewMode = "grid" | "table";
 
 export type SortOption =
@@ -31,3 +33,17 @@ export type StaffHeaderButtonGroupProps = {
   selectedCount: number;
   onBatchDelete: () => void;
 };
+
+export interface Announcement {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+}
+
+export interface StaffTableProps {
+  data: Member[];
+  search: string;
+  selectedIds: Set<number>;
+  onSelect: (id: number) => void;
+}

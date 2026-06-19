@@ -10,16 +10,10 @@ import {
 } from "@/components/ui/table";
 
 import { Mail, Phone } from "lucide-react";
-import { Member } from "@/lib/types/user";
 import { Highlight } from "./Highlight";
 import { Input } from "@/components/ui/input";
-
-interface StaffTableProps {
-  data: Member[];
-  search: string;
-  selectedIds: Set<number>;
-  onSelect: (id: number) => void;
-}
+import { useAuth } from "@/hooks/use-auth";
+import { StaffTableProps } from "@/lib/types/app";
 
 export function StaffTable({
   data,
@@ -27,12 +21,15 @@ export function StaffTable({
   selectedIds,
   onSelect
 }: StaffTableProps) {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <div className="overflow-hidden rounded-2xl border bg-background">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead></TableHead>
+            {isAdmin && <TableHead></TableHead>}
             <TableHead>Name</TableHead>
             <TableHead>Department</TableHead>
             <TableHead>Role</TableHead>
@@ -51,9 +48,11 @@ export function StaffTable({
 
             return (
               <TableRow key={staff.id}>
-                <TableCell>
-                  <Input type="checkbox" checked={selectedIds.has(staff.id)} onChange={() => onSelect(staff.id)} />
-                </TableCell>
+                {isAdmin && (
+                  <TableCell>
+                    <Input type="checkbox" checked={selectedIds.has(staff.id)} onChange={() => onSelect(staff.id)} />
+                  </TableCell>
+                )}
 
                 <TableCell>
                   <div>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChartColumn, ChevronDown, LayoutGrid, RefreshCw, Table2, Upload } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { StaffHeaderButtonGroupProps } from "@/lib/types/app";
+import { useAuth } from "@/hooks/use-auth";
 
 export function StaffToolbar({
   search,
@@ -21,6 +22,9 @@ export function StaffToolbar({
   selectedCount,
   onBatchDelete
 }: StaffHeaderButtonGroupProps) {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <div className="flex gap-2">
       <div className="flex flex-col items-start gap-2">
@@ -155,7 +159,7 @@ export function StaffToolbar({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {selectedCount > 0 && <Button
+      {selectedCount > 0 && isAdmin && <Button
         variant="destructive"
         disabled={selectedCount === 0}
         onClick={onBatchDelete}
