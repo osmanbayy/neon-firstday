@@ -12,21 +12,27 @@ import {
 import { Mail, Phone } from "lucide-react";
 import { Member } from "@/lib/types/user";
 import { Highlight } from "./Highlight";
+import { Input } from "@/components/ui/input";
 
 interface StaffTableProps {
   data: Member[];
   search: string;
+  selectedIds: Set<number>;
+  onSelect: (id: number) => void;
 }
 
 export function StaffTable({
   data,
-  search
+  search,
+  selectedIds,
+  onSelect
 }: StaffTableProps) {
   return (
     <div className="overflow-hidden rounded-2xl border bg-background">
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead></TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Department</TableHead>
             <TableHead>Role</TableHead>
@@ -41,11 +47,14 @@ export function StaffTable({
 
         <TableBody>
           {data.map((staff) => {
-            const ZodiacIcon =
-              staff.zodiacIcon;
+            const ZodiacIcon = staff.zodiacIcon;
 
             return (
               <TableRow key={staff.id}>
+                <TableCell>
+                  <Input type="checkbox" checked={selectedIds.has(staff.id)} onChange={() => onSelect(staff.id)} />
+                </TableCell>
+
                 <TableCell>
                   <div>
                     <p className="font-medium">

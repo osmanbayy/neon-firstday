@@ -1,6 +1,7 @@
 export type ViewMode = "grid" | "table";
 
 export type SortOption =
+  | "default"
   | "name-asc"
   | "name-desc"
   | "department-asc"
@@ -28,5 +29,5 @@ export type StaffHeaderButtonGroupProps = {
   sortBy: SortOption;
   setSortBy: (value: SortOption) => void;
   selectedCount: number;
-  onBatchDelete: () => void;  
+  onBatchDelete: () => void;
 };

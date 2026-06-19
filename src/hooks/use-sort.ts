@@ -3,6 +3,10 @@ import { useMemo } from "react";
 
 export function useSort<T>({ data, sortBy, direction = "asc" as SortDirection }: UseSortProps<T>) {
   return useMemo(() => {
+    if (!sortBy || !direction) {
+      return data;
+    }
+
     const sorted = [...data];
 
     sorted.sort((a, b) => {

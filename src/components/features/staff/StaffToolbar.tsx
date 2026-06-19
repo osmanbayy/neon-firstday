@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 
 import { ChartColumn, ChevronDown, LayoutGrid, RefreshCw, Table2, Upload } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SortOption, StaffHeaderButtonGroupProps } from "@/lib/types/app";
+import { StaffHeaderButtonGroupProps } from "@/lib/types/app";
 
 export function StaffToolbar({
   search,
@@ -93,32 +92,68 @@ export function StaffToolbar({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Select
-        value={sortBy}
-        onValueChange={(value) => setSortBy(value as SortOption)}
-      >
-        <SelectTrigger className="w-50">
-          <SelectValue />
-        </SelectTrigger>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className="cursor-pointer min-w-20 justify-between capitalize"
+          >
+            {sortBy === "default"
+              ? "Sort By"
+              : sortBy
+                ? sortBy.replace("-", " ")
+                : "Sort By"
+            }
 
-        <SelectContent>
-          <SelectItem value="name-asc">
+            <ChevronDown size={16} />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end" className="min-w-45">
+          <DropdownMenuItem
+            onClick={() => setSortBy("default")}
+            className="cursor-pointer"
+          >
+            Default
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() =>
+              setSortBy("name-asc")
+            }
+            className="cursor-pointer"
+          >
             Name (A-Z)
-          </SelectItem>
+          </DropdownMenuItem>
 
-          <SelectItem value="name-desc">
+          <DropdownMenuItem
+            onClick={() =>
+              setSortBy("name-desc")
+            }
+            className="cursor-pointer"
+          >
             Name (Z-A)
-          </SelectItem>
+          </DropdownMenuItem>
 
-          <SelectItem value="department-asc">
+          <DropdownMenuItem
+            onClick={() =>
+              setSortBy("department-asc")
+            }
+            className="cursor-pointer"
+          >
             Department (A-Z)
-          </SelectItem>
+          </DropdownMenuItem>
 
-          <SelectItem value="department-desc">
+          <DropdownMenuItem
+            onClick={() =>
+              setSortBy("department-desc")
+            }
+            className="cursor-pointer"
+          >
             Department (Z-A)
-          </SelectItem>
-        </SelectContent>
-      </Select>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       {selectedCount > 0 && <Button
         variant="destructive"

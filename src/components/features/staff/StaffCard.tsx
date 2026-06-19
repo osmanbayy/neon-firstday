@@ -37,7 +37,6 @@ function StaffCard({
   isSelected,
   onSelect
 }: StaffCardProps) {
-  console.log("Staff card render: ", id);
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-border/50 bg-linear-to-br from-background via-background to-muted/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
 

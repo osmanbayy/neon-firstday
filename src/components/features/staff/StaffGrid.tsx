@@ -31,7 +31,7 @@ export function StaffGrid() {
 
   const debouncedSearch = useDebounce(search, 300);
 
-  const [sortBy, setSortBy] = useState<SortOption>("name-asc");
+  const [sortBy, setSortBy] = useState<SortOption>("default");
 
   const [field, direction] = sortBy.split("-");
 
@@ -169,6 +169,8 @@ export function StaffGrid() {
         <StaffTable
           data={paginatedData}
           search={search}
+          selectedIds={selectedIds}
+          onSelect={toggleSelection}
         />
       )}
 
