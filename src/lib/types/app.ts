@@ -39,6 +39,7 @@ export interface Announcement {
   title: string;
   description: string;
   date: string;
+<<<<<<< HEAD
 }
 
 export interface StaffTableProps {
@@ -46,4 +47,6 @@ export interface StaffTableProps {
   search: string;
   selectedIds: Set<number>;
   onSelect: (id: number) => void;
+=======
+>>>>>>> a0900fb9cbe3ca504cedbc447745de8834fc1b80
 }

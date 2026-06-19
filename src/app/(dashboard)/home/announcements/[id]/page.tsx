@@ -45,10 +45,13 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 }
 
 export default async function AnnouncementPage({ params }: SingleAnnouncementProps) {
+<<<<<<< HEAD
   await new Promise((resolve) => {
     setTimeout(resolve, 1000);
   })
 
+=======
+>>>>>>> a0900fb9cbe3ca504cedbc447745de8834fc1b80
   const { id } = await params;
 
   const announcement = getAnnouncementById(Number(id));
